@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "changeOrigin": true,
+    "secure": true,
+    "target": "https://poc-cart-frontdoor-dndefbf5ezataad3.canadacentral-01.azurewebsites.net"
+  }
+}

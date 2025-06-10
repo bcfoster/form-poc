@@ -1,7 +1,6 @@
 /* eslint-disable */
 
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -16,7 +15,6 @@ export class AuthEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly http: HttpClient,
-    private readonly router: Router,
     private readonly store: Store,
     @Inject(API_BASE_URL) public apiUrl: string,
   ) {
@@ -24,7 +22,7 @@ export class AuthEffects {
       actions$.pipe(
         ofType(authActions.signIn),
         withLatestFrom(this.store.select(authSelectors.selectFormValue)),
-        switchMap(() => this.http.get(`${this.apiUrl}/api/Router/decide?userId=reza.sh`)),
+        switchMap(() => this.http.get('/api/Router/decide?userId=reza.sh')),
         tap((response) => console.log(JSON.stringify(response))),
         map((response: any) => authActions.signedIn({ redirectUrl: response.redirectUrl })),
       ),
@@ -34,7 +32,7 @@ export class AuthEffects {
       () =>
         actions$.pipe(
           ofType(authActions.signedIn),
-          tap((action) => this.router.navigate([action.redirectUrl])),
+          tap((action) => (window.location.href = action.redirectUrl)),
         ),
       { dispatch: false },
     );
