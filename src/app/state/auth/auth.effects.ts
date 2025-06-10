@@ -22,7 +22,7 @@ export class AuthEffects {
       actions$.pipe(
         ofType(authActions.signIn),
         withLatestFrom(this.store.select(authSelectors.selectFormValue)),
-        switchMap(() => this.http.get('/api/Router/decide?userId=reza.sh')),
+        switchMap(() => this.http.get(`${this.apiUrl}/api/Router/decide?userId=reza.sh`)),
         tap((response) => console.log(JSON.stringify(response))),
         map((response: any) => authActions.signedIn({ redirectUrl: response.redirectUrl })),
       ),
