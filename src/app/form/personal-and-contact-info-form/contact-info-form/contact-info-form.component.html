@@ -1,0 +1,128 @@
+<h2 class="mb-4 text-xl leading-none font-semibold text-yellow-500">
+  {{ isReportingForSelf ? "Your contact information" : "Injured worker's contact information" }}
+</h2>
+
+<div class="flex flex-col gap-y-3">
+  @if (isReportingForSelf) {
+    <p class="text-sm">
+      It’s easiest for us to reach you if you provide your mailing address <b>and</b> at least one
+      phone number. If you don't have a mailing address and phone number, please call our Teleclaim
+      team at <a href="tel:">555.555.5555</a> (or toll-free at <a href="tel:">555.555.5555</a>),
+      Monday through Friday, 8 a.m. to 6 p.m. PT, so we can better assist you.
+    </p>
+  } @else {
+    <p class="text-sm">
+      It’s easiest for us to reach the injured worker if you provide their mailing address
+      <b>and</b> at least one phone number. If the injured worker does not have a mailing address
+      and phone number,, please call our Teleclaim team at <a href="tel:">555.555.5555</a> (or
+      toll-free at <a href="tel:">555.555.5555</a>), Monday through Friday, 8 a.m. to 6 p.m. PT, so
+      we can better assist them.
+    </p>
+  }
+
+  <h3 class="text-md mb-4 leading-none font-semibold text-gray-900">Mailing address</h3>
+
+  <text-input
+    [control]="form.controls.address.controls.addressLine1"
+    label="Address line 1"
+    [maxLength]="40"
+    requiredLabel="Please enter your street address"
+  />
+
+  <text-input
+    [control]="form.controls.address.controls.addressLine2"
+    description='If your address contains "attention" or "care of" information, please enter that information in this field as "ATTN:" or "C/O:"'
+    label="Address line 2"
+    [maxLength]="40"
+    [optional]="true"
+  />
+
+  <text-input
+    [control]="form.controls.address.controls.city"
+    label="City"
+    [maxLength]="30"
+    requiredLabel="Please enter your city"
+  />
+
+  @if (form.value.address.country === 'CA') {
+    <select-option
+      [control]="form.controls.address.controls.province"
+      label="Province"
+      [options]="PROVINCES"
+      requiredLabel="Please enter the province"
+    />
+  } @else {
+    <select-option
+      [control]="form.controls.address.controls.province"
+      label="State"
+      [options]="STATES"
+      requiredLabel="Please enter the state"
+    />
+  }
+
+  <select-option
+    [control]="form.controls.address.controls.country"
+    label="Country"
+    [options]="[
+      { key: 'CA', value: 'Canada' },
+      { key: 'US', value: 'United States' },
+    ]"
+    requiredLabel="Please enter the country"
+  />
+
+  <text-input
+    [control]="form.controls.address.controls.postalCode"
+    [label]="form.value.address.country === 'CA' ? 'Postal code' : 'ZIP code'"
+  />
+
+  <!-- TODO: create component to encapsulate phone numbers and resolve validation error spacing -->
+  <h3 class="text-md leading-none font-semibold text-gray-900">Phone number(s)</h3>
+
+  @let phoneForm = form.controls.phone.controls;
+  @let error = 'Please enter a 10-digit phone number';
+
+  <text-input
+    [control]="phoneForm.homePhone"
+    label="Home phone number"
+    [maxLength]="10"
+    [digitsLabel]="error"
+    [minLengthLabel]="error"
+  />
+
+  <text-input
+    [control]="phoneForm.cellPhone"
+    label="Mobile phone number"
+    [maxLength]="10"
+    [digitsLabel]="error"
+    [minLengthLabel]="error"
+  />
+
+  <text-input
+    [control]="phoneForm.workPhone"
+    label="Work phone number"
+    [maxLength]="10"
+    [digitsLabel]="error"
+    [minLengthLabel]="error"
+  />
+
+  @if (
+    form.isInvalid && form.isSubmitted && phoneForm.homePhone.errors.required && phoneForm.cellPhone.errors.required && phoneForm.workPhone.errors.required
+  ) {
+    <p class="text-sm text-red-500">{{ error }}</p>
+  }
+
+  @if (phoneForm.workPhone.value !== contactInfo.initialFormValue.phone.workPhone) {
+    <text-input [control]="phoneForm.extension" label="Extension" [maxLength]="10" />
+  }
+
+  <h3 class="text-md leading-none font-semibold text-gray-900">Email</h3>
+
+  <!-- TODO: create component to encapsulate email address -->
+  <text-input
+    [control]="form.controls.email"
+    label="Email address"
+    [maxLength]="50"
+    emailLabel="Please enter your email address in the format name@email.com"
+    requiredLabel="Please enter your email address"
+  />
+</div>

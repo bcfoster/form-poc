@@ -1,0 +1,92 @@
+<div class="flex flex-col gap-y-5">
+  <binary-radio-group
+    [control]="form.controls.reportingForSelf"
+    label="Are you the person who was injured?"
+    trueLabel="Yes, I am the injured worker"
+    falseLabel="No, I am reporting on behalf of the injured worker"
+    requiredLabel="Please indicate if you are the person who was injured"
+  />
+
+  @if (form.value.reportingForSelf === false) {
+    <h2 class="text-xl leading-none font-semibold text-yellow-500">Your contact information</h2>
+
+    <div class="flex flex-col gap-y-3">
+      @let firstName = form.controls.firstName;
+      <text-input
+        [control]="firstName"
+        label="First name"
+        requiredLabel="Please enter your first name"
+        minLengthLabel="Please enter at least {{ firstName.errors.minLength?.minLength }} characters for your first name"
+      />
+
+      @let lastName = form.controls.lastName;
+      <text-input
+        [control]="lastName"
+        label="Last name"
+        requiredLabel="Please enter your last name"
+        minLengthLabel="Please enter at least {{ lastName.errors.minLength?.minLength }} characters for your last name"
+      />
+
+      @let phoneNumber = form.controls.phoneNumber;
+      <text-input
+        [control]="phoneNumber"
+        label="Phone number"
+        minLengthLabel="Please enter a {{ phoneNumber.errors.minLength?.minLength }}-digit phone number"
+      />
+
+      <select-option
+        [control]="form.controls.relationship"
+        defaultLabel="Choose a relationship"
+        label="Relationship to the injured worker"
+        [options]="[
+        { key: 'Coworker', value: 'Co-worker' },
+        { key: 'Spouse', value: 'Spouse' },
+        { key: 'OtherFamily', value: 'Other family member' },
+        { key: 'UnionRepresentative', value: 'Union rep' },
+        { key: 'Other', value: 'Other' },
+      ]"
+        requiredLabel="Please indicate your relationship to the injured worker"
+      />
+
+      @if (form.value.relationship === 'Other') {
+        @let relationshipOther = form.controls.relationshipOther;
+        <text-area
+          [control]="relationshipOther"
+          label="What is your relationship with the injured worker?"
+          requiredLabel="Please indicate your relationship to the injured worker"
+          minLengthLabel="Please enter at least {{ relationshipOther.errors.minLength?.minLength }} characters for your relationship to the injured worker"
+        />
+      }
+
+      <div
+        class="flex flex-col gap-y-2 rounded-lg bg-gray-50 p-4 text-sm text-gray-800"
+        role="alert"
+      >
+        <div class="flex items-center">
+          <svg
+            class="me-2 h-4 w-4 shrink-0"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"
+            />
+          </svg>
+          <span class="sr-only">Info</span>
+          <h3 class="text-sm font-semibold">
+            Will you or someone else be helping the injured worker with their claim?
+          </h3>
+        </div>
+
+        <p>
+          If the injured worker would like to add you or someone else as a representative to help
+          manage their claim, please have them fill out and sign our
+          <!-- todo: style link, move to shared component -->
+          <a href="https://www.google.ca/" target="_blank">authorization form</a>.
+        </p>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,17 @@
+@if (control.isInvalid && control.isSubmitted) {
+  @if (control.errors.required && requiredLabel) {
+    <p class="text-sm text-red-500">{{ requiredLabel }}</p>
+  }
+
+  @if (control.errors.minLength && minLengthLabel) {
+    <p class="text-sm text-red-500">{{ minLengthLabel }}</p>
+  }
+
+  @if (control.errors.digits && digits) {
+    <p class="text-sm text-red-500">{{ digits }}</p>
+  }
+
+  @if (control.errors.email && email) {
+    <p class="text-sm text-red-500">{{ email }}</p>
+  }
+}

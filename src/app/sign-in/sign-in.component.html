@@ -1,0 +1,19 @@
+<div *ngrxLet="form$ as form" class="mx-auto max-w-sm">
+  <h1 class="mb-4 text-2xl leading-none font-semibold text-gray-900">Sign-in</h1>
+
+  <div class="flex flex-col gap-y-5">
+    <form [ngrxFormState]="form" class="flex flex-col">
+      <text-input [control]="form.controls.username" label="Username" />
+      <text-input [control]="form.controls.password" label="Password" />
+    </form>
+
+    <button
+      type="button"
+      class="rounded-lg bg-blue-700 px-3 py-2 text-sm font-medium text-white focus:ring-4 focus:ring-blue-300 focus:outline-none"
+      (click)="signIn()"
+      [ngClass]="{ 'cursor-pointer hover:bg-blue-800': form?.isValid ?? false, 'cursor-not-allowed opacity-50': form?.isInvalid ?? true }"
+    >
+      Sign-in
+    </button>
+  </div>
+</div>

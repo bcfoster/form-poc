@@ -1,0 +1,15 @@
+<h2 class="mb-4 text-xl leading-none font-semibold text-yellow-500">
+  Authorization to access personal information
+</h2>
+
+<div class="flex flex-col gap-y-3">
+  <binary-radio-group
+    [control]="form.controls.authorization.controls.authorizedToAccessInjuryInformation"
+    [horizontal]="true"
+    label="Do you authorize us to access personal information from third parties related to your injury and employment?"
+  />
+
+  @if (form.value.authorization.authorizedToAccessInjuryInformation) {
+    <text-area [control]="form.controls.authorization.controls.workerSignature" label="Signature" />
+  }
+</div>

@@ -1,0 +1,136 @@
+<h2 class="mb-4 text-xl leading-none font-semibold text-yellow-500">Medical care</h2>
+
+<div class="flex flex-col gap-y-3">
+  <binary-radio-group
+    [control]="form.controls.haveReceivedFirstAid"
+    description="For example, you may have receieved bandages, an ice pack, wound cleaning, and/or transportation by ambulance."
+    [horizontal]="true"
+    label="Did you receive first aid or treatment at your workplace?"
+    requiredLabel="Please indicate if you received first aid"
+  />
+
+  @if (form.value.haveReceivedFirstAid) {
+    <date-input
+      [control]="form.controls.dateReceivedFirstAid"
+      label="When did you receive first aid?"
+      earlierThan=""
+      laterThan=""
+      requiredLabel="Please enter the date you received first aid"
+    />
+
+    <checkbox
+      [control]="form.controls.dateReceivedFirstAidIsApproximate"
+      label="This is an approximate date"
+    />
+
+    <text-area
+      [control]="form.controls.typeOfFirstAidReceived"
+      label="What type of treatment did you receive at your workplace?"
+      [maxLength]="500"
+      requiredLabel="Please tell us about the type of treatment you received"
+      minWordLengthLabel="Please tell us more about the type of treatment you received"
+    />
+  }
+
+  <binary-radio-group
+    [control]="form.controls.haveVisitedPractitioner"
+    [horizontal]="true"
+    label="Did you visit a hospital, or a physician or other qualified practitioner?"
+    requiredLabel="Please indicate if you visited a hospital, physician, or qualified practitioner"
+  />
+
+  @if (form.value.haveVisitedPractitioner) {
+    <h2 class="text-xl leading-none font-semibold text-yellow-500">Medical practitioner details</h2>
+
+    <p class="text-sm">
+      If you've had multiple appointments about this injury, please provide the details of the
+    </p>
+
+    <date-input [control]="form.controls.dateReceivedTreatment" label="Date of treatment" />
+
+    <checkbox [control]="form.controls.isApproximateDate" label="This is an approximate date" />
+
+    <text-input
+      [control]="form.controls.clinicOrHospitalName"
+      label="Clinic or hospital name"
+      [optional]="true"
+    />
+
+    <h3 class="text-md leading-none font-semibold text-black">
+      Physician or qualified practitioner
+    </h3>
+
+    <text-input [control]="form.controls.practitionerName" label="First name" [optional]="true" />
+
+    <text-input
+      [control]="form.controls.practitionerLastName"
+      label="Last name"
+      [optional]="true"
+    />
+
+    <text-input
+      [control]="form.controls.clinicOrHospitalAddress"
+      label="In what city or town is the clinic or hospital located?"
+      [optional]="true"
+    />
+
+    <text-input
+      [control]="form.controls.clinicOrHospitalPhoneNumber"
+      label="Clinic or hospital's phone number"
+      [optional]="true"
+    />
+
+    <text-area
+      [control]="form.controls.clinicTreatmentDetails"
+      label="What was the treatment?"
+      requiredLabel="Please tell us about your treatment"
+    />
+  }
+
+  @if (form.value.haveVisitedPractitioner === false) {
+    <binary-radio-group
+      [control]="form.controls.haveAppointmentBooked"
+      [horizontal]="true"
+      label="Do you have an appointment booked with a physician or other qualified practicioner to treat this injury?"
+      requiredLabel="Please indicate if you have an appointment booked"
+    />
+  }
+
+  @if (form.value.haveAppointmentBooked === false) {
+    <div class="flex flex-col gap-y-2 rounded-lg bg-gray-50 p-4 text-sm text-gray-800" role="alert">
+      <div class="flex items-center">
+        <svg
+          class="me-2 h-4 w-4 shrink-0"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"
+          />
+        </svg>
+        <span class="sr-only">Info</span>
+        <h3 class="text-sm font-semibold">Seeking medical attention or treatment</h3>
+      </div>
+
+      <p>
+        We will consider your claim whether you seek medical attention or not. However, if you have
+        concerns about your pain or other symptoms and don't already have plans to see a physician,
+        physiotherapist, chiropractor, or other qualified practitioner, we recommend you seek
+        medical attention.
+      </p>
+
+      <p>
+        You can also seek physiotherapy right away. We will pay for an initial assessment from one
+        of our contradicted physiotherapists even before we accept your claim. Lists of contracted
+        physiotherapists are available on our website.
+      </p>
+
+      <p>
+        If you do seek medical attention or treatment, be sure to explain that your injury is
+        work-related and give the provider your claim number.
+      </p>
+    </div>
+  }
+</div>

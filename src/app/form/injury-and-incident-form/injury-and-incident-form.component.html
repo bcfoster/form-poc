@@ -1,0 +1,32 @@
+<div *ngrxLet="form$ as form" class="mx-auto max-w-sm">
+  <h1 class="mb-4 text-2xl leading-none font-semibold text-gray-900">
+    Injury & incident information
+  </h1>
+
+  <form [ngrxFormState]="form" class="flex flex-col gap-y-5">
+    <incident-overview-form [form]="form.controls.incidentOverview" />
+
+    <injury-details-form [form]="form.controls.injuryDetails" />
+
+    <incident-details-form [form]="form.controls.incidentDetails" />
+
+    <h2 class="text-xl leading-none font-semibold text-yellow-500">Additional information</h2>
+
+    <text-area
+      [control]="form.controls.additionalInformation"
+      label="Is there anything else you'd like to tell us about your injury or how it happened that you haven't already told us?"
+      [optional]="true"
+    />
+
+    <div>
+      <button
+        class="cursor-pointer rounded-lg bg-blue-500 px-3 py-2 text-sm font-medium text-white hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 focus:outline-none"
+        (click)="save()"
+        routerLink=".."
+        type="button"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>

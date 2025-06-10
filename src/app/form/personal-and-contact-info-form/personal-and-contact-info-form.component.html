@@ -1,0 +1,38 @@
+<div *ngrxLet="form$ as form" class="mx-auto max-w-sm">
+  <h1 class="mb-4 text-2xl leading-none font-semibold text-gray-900">
+    Personal and contact information
+  </h1>
+
+  <form [ngrxFormState]="form" class="flex flex-col gap-y-5">
+    <representative-info-form [form]="form.controls.representativeInformation" />
+
+    @let reportingForSelf = form.value.representativeInformation.reportingForSelf;
+
+    @if (reportingForSelf !== null) {
+      <personal-info-form
+        [form]="form.controls.personalInformation"
+        [reportingForSelf]="reportingForSelf"
+      />
+
+      <contact-info-form
+        [form]="form.controls.contactInformation"
+        [isReportingForSelf]="reportingForSelf"
+      />
+
+      @if (reportingForSelf) {
+        <email-consent-form [form]="form.controls.emailConsent" />
+      }
+    }
+
+    <div>
+      <button
+        class="cursor-pointer rounded-lg bg-blue-500 px-3 py-2 text-sm font-medium text-white hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 focus:outline-none"
+        (click)="save()"
+        routerLink=".."
+        type="button"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>

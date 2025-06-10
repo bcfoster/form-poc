@@ -1,0 +1,204 @@
+<h2 class="mb-4 text-xl leading-none font-semibold text-yellow-500">
+  {{ reportingForSelf ? "Your personal information" : "Injured worker's personal information" }}
+</h2>
+
+<div class="flex flex-col gap-y-3">
+  <binary-radio-group
+    [control]="form.controls.haveClaimNumber"
+    [description]="reportingForSelf
+      ? 'You may have received a claim number from us or your employer.'
+      : 'They may have received a claim number from us or their employer.'
+    "
+    [horizontal]="true"
+    [label]="reportingForSelf
+      ? 'Have you already received a claim number for the incident you are reporting today?'
+      : 'Has the injured worker already received a claim number for the incident you are reporting today?'
+    "
+    requiredLabel="Please indiciate if you've already received a claim number"
+  />
+
+  @if (form.value.haveClaimNumber === true) {
+    @let claimNumber = form.controls.claimNumber;
+    <text-input
+      [control]="claimNumber"
+      label="Claim number"
+      [maxLength]="8"
+      digitsLabel="Please enter your claim number using only numbers"
+      minLengthLabel="Please enter your {{ claimNumber.errors.minLength?.minLength }}-digit claim number"
+    />
+  }
+
+  @let legalFirstName = form.controls.legalFirstName;
+  <text-input
+    [control]="legalFirstName"
+    label="Legal first name"
+    [maxLength]="25"
+    minLengthLabel="Please enter at least {{ legalFirstName.errors.minLength?.minLength }} characters for your legal first name"
+    requiredLabel="Please enter your legal first name"
+  />
+
+  <text-input
+    [control]="form.controls.preferredFirstName"
+    label="Preferred first name"
+    [maxLength]="25"
+    [optional]="true"
+  />
+
+  <text-input
+    [control]="form.controls.middleName"
+    label="Middle name or initial"
+    [maxLength]="10"
+    [optional]="true"
+  />
+
+  @let lastName = form.controls.lastName;
+  <text-input
+    [control]="lastName"
+    label="Last name"
+    [maxLength]="30"
+    minLengthLabel="Please enter at least {{ lastName.errors.minLength?.minLength }} characters for your last name"
+    requiredLabel="Please enter your last name"
+  />
+
+  <date-input
+    [control]="form.controls.dateOfBirth"
+    label="Date of birth"
+    requiredLabel="Please enter your date of birth"
+  />
+
+  <multi-radio-group
+    [control]="form.controls.demographics.controls.sexAtBirth"
+    label="Sex at birth"
+    [options]="[
+        { key: 'Female', value: 'Female' },
+        { key: 'Intersex', value: 'Intersex' },
+        { key: 'Male', value: 'Male' },
+        { key: 'Unknown', value: 'Prefer not to answer' },
+      ]"
+    requiredLabel="Please select your sex at birth"
+  />
+
+  <select-option
+    [control]="form.controls.demographics.controls.gender"
+    defaultLabel="Choose your gender"
+    label="Gender"
+    [optional]="true"
+    [options]="[
+        { key: 'Man', value: 'Man' },
+        { key: 'Non-binary', value: 'Non-binary' },
+        { key: 'Two-Spirit', value: 'Two-Spirit' },
+        { key: 'Woman', value: 'Woman' },
+        { key: '__<CUSTOM>__', value: 'Alternatively, please specify' },
+      ]"
+  />
+
+  @if (form.value.demographics.gender === '__<CUSTOM>__') {
+    <text-area
+      [control]="form.controls.demographics.controls.customGender"
+      label="Please specify your gender"
+      [optional]="true"
+      requiredLabel="Please describe your gender"
+      minLengthLabel="Please enter at least {{ form.controls.demographics.controls.customGender.errors.minLength?.minLength }} characters for your gender"
+    />
+  }
+
+  <select-option
+    [control]="form.controls.demographics.controls.pronouns"
+    label="Pronouns"
+    [optional]="true"
+    defaultLabel="Choose your pronouns"
+    [options]="[
+        { key: 'He/him', value: 'He/him' },
+        { key: 'She/her', value: 'She/her' },
+        { key: 'They/them', value: 'They/them' },
+        { key: 'Ze/zir', value: 'Ze/zir' },
+        { key: '__<CUSTOM>__', value: 'Alternatively, please specify' },
+      ]"
+  />
+
+  @if (form.value.demographics.pronouns === '__<CUSTOM>__') {
+    <text-area
+      [control]="form.controls.demographics.controls.customPronouns"
+      label="Please specify your pronouns"
+      [optional]="true"
+      requiredLabel="Please describe your pronouns"
+      minLengthLabel="Please enter at least {{ form.controls.demographics.controls.customPronouns.errors.minLength?.minLength }} characters for your pronouns"
+    />
+  }
+
+  <label for="height" class="block text-sm font-semibold text-gray-900"
+    >What is your height? <span class="font-normal">(optional)</span></label
+  >
+  <input class="hidden" id="height" />
+  <div class="flex gap-x-2">
+    <div class="relative w-1/5">
+      <input
+        class="rounded-s-gray-100 rounded-s-2 z-20 block w-full rounded-s-lg rounded-e-lg border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-gray-400 focus:ring-gray-400"
+        id="height-feet"
+        [ngrxFormControlState]="form.controls.heightFeet"
+        type="text"
+      />
+      <span
+        class="rounded-e-gray-100 absolute end-0 top-0 h-full rounded-e-lg p-2.5 text-sm font-medium text-gray-500"
+      >
+        ft.
+      </span>
+    </div>
+
+    <div class="relative w-1/5">
+      <input
+        class="rounded-s-gray-100 rounded-s-2 z-20 block w-full rounded-s-lg rounded-e-lg border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-gray-400 focus:ring-gray-400"
+        id="height-inches"
+        [ngrxFormControlState]="form.controls.heightInches"
+        type="text"
+      />
+      <span
+        class="rounded-e-gray-100 absolute end-0 top-0 h-full rounded-e-lg p-2.5 text-sm font-medium text-gray-500"
+      >
+        in.
+      </span>
+    </div>
+  </div>
+
+  <weight-input [control]="form.controls.weight" />
+
+  @let havePhnLabel =
+    reportingForSelf
+      ? 'Do you have a B.C. Personal Health Number (PHN)?'
+      : 'Does the injured worker have a B.C. Personal Health Number (PHN)?';
+  <binary-radio-group
+    [control]="form.controls.havePhn"
+    [label]="havePhnLabel"
+    [horizontal]="true"
+    requiredLabel="Please indicate if you have a B.C. Personal Health Number"
+  />
+
+  @if (form.value.havePhn === true) {
+    <text-input
+      [control]="form.controls.phn"
+      label="Personal Health Number (PHN)"
+      digitsLabel="Please enter your B.C. Personal Health Number using only numbers"
+      requiredLabel="Please enter your B.C. Personal Health Number"
+    />
+  }
+
+  @let interpreterLabel =
+    reportingForSelf
+      ? 'If we need to speak with you about your claim, would you like an interpreter on the call?'
+      : 'If we need to speak with the injured worker about their claim, would they like an interpreter on the call?';
+  <binary-radio-group
+    [control]="form.controls.interpreter"
+    [label]="interpreterLabel"
+    [horizontal]="true"
+    requiredLabel="Please indicate if you'd like an interpreter"
+  />
+
+  @if (form.value.interpreter === true) {
+    <select-option
+      [control]="form.controls.preferredLanguage"
+      label="Preferred language"
+      [options]="LANGUAGES"
+      requiredLabel="Please select your preferred language"
+    />
+  }
+</div>

@@ -1,0 +1,37 @@
+<div class="flex flex-col gap-y-3">
+  <!-- TODO: expandable section with email communications details -->
+
+  <binary-radio-group
+    [control]="form.controls.consentIsGiven"
+    description="This information may contain your personal information."
+    [horizontal]="true"
+    label="At this time, are you open to receiving some information about your claim via email?"
+    requiredLabel="Please indicate if you consent to receiving email communications"
+  />
+
+  @if (form.value.consentIsGiven) {
+    <binary-radio-group
+      [control]="form.controls.workerRepresentativesAuthorized"
+      description="This could be your spouse and/or union representative, for example."
+      [horizontal]="true"
+      label="Any authorized representative(s) you may have"
+      requiredLabel="Please indicate your consent for any authorized representatives"
+    />
+
+    <binary-radio-group
+      [control]="form.controls.employerAndRepresentativesAuthorized"
+      description="If you have more than one employer, this consent covers all of them and their authorized representative."
+      [horizontal]="true"
+      label="Any employer(s) and their representiative(s)"
+      requiredLabel="Please indicate your consent for your employer(s) and their representative(s)"
+    />
+
+    <binary-radio-group
+      [control]="form.controls.healthcareAndServiceProvidersAuthorized"
+      description="These could be your physician, physiotherapist, and/or training program, for example."
+      [horizontal]="true"
+      label="Your health care and service provider(s)"
+      requiredLabel="Please indicate your consent for your health care and service provider(s)"
+    />
+  }
+</div>
