@@ -13,11 +13,9 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { routes } from './app.routes';
 import { API_BASE_URL } from './services/wrio-api.service';
 
-import { auth } from './state/auth';
 import { drafts } from './state/drafts';
 import { form } from './state/form';
 
-import { AuthEffects } from './state/auth/auth.effects';
 import { DraftsEffects } from './state/drafts/drafts.effects';
 import { FormEffects } from './state/form/form.effects';
 
@@ -32,7 +30,7 @@ const provideApiBaseUrl = () =>
 export const appConfig: ApplicationConfig = {
   providers: [
     provideApiBaseUrl(),
-    provideEffects([AuthEffects, DraftsEffects, FormEffects]),
+    provideEffects([DraftsEffects, FormEffects]),
     provideHttpClient(),
     provideRouter(
       routes,
@@ -42,7 +40,6 @@ export const appConfig: ApplicationConfig = {
     ),
     provideStore(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-    provideState(auth.feature),
     provideState(drafts.feature),
     provideState(form.feature),
     provideZoneChangeDetection({ eventCoalescing: true }),

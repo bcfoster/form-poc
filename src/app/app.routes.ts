@@ -10,17 +10,8 @@ import { TreatmentDetailsFormComponent } from './form/treatment-details-form/tre
 import { FormRootComponent } from './form-root/form-root.component';
 import { FormShellComponent } from './form-shell/form-shell.component';
 import { FormSummaryComponent } from './form-summary/form-summary.component';
-import { SignInComponent } from './sign-in/sign-in.component';
 
-import * as authSelectors from './state/auth/auth.selectors';
 import * as draftSelectors from './state/drafts/drafts.selectors';
-
-const isAuthenticated: CanActivateFn = () => {
-  const router = inject(Router);
-  return inject(Store)
-    .select(authSelectors.selectIsAuthenticated)
-    .pipe(map((isAuthenticated) => (isAuthenticated ? true : router.createUrlTree(['/sign-in']))));
-};
 
 export const isFormActive: CanActivateFn = () => {
   const router = inject(Router);
@@ -30,8 +21,7 @@ export const isFormActive: CanActivateFn = () => {
 };
 
 export const routes: Routes = [
-  { path: '', canActivate: [isAuthenticated], pathMatch: 'full', component: FormShellComponent },
-  { path: 'sign-in', component: SignInComponent },
+  { path: '', pathMatch: 'full', component: FormShellComponent },
   {
     path: 'form',
     canActivateChild: [isFormActive],
